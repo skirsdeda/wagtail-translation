@@ -31,9 +31,9 @@ class Migration(migrations.Migration):
         mod_path = 'wagtail.{}.migrations.{}'.format(*self.replaces[0])
         orig_migration = import_module(mod_path).Migration
         self.operations[:0] = orig_migration.operations
+        self.dependencies = orig_migration.dependencies
 
-    # By using `replaces` instead of `depends` we make sure that
-    # this migration doesn't have ambiguous `app_label`.
+    # By using `replaces` we make sure that this migration doesn't have ambiguous `app_label`.
     # When this migration is applied Django writes only replaced migration
     # to django_migrations table in DB. Otherwise migration would have
     # 'wagtail_translation' as app_label in django_migrations table and
