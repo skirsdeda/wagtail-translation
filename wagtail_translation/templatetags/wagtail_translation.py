@@ -37,7 +37,7 @@ def change_lang(context, lang_code):
                 except:
                     pass
 
-        # if non of the above URL translation methods worked
+        # if none of the above URL translation methods worked
         # let's try replacing language prefix in URL
         current_lang = get_language_from_path(request.path_info)
         if current_lang is not None:
