@@ -1,3 +1,5 @@
+from __future__ import absolute_import, unicode_literals
+
 import logging
 from modeltranslation import settings as mt_settings
 from django import VERSION as DJANGO_VERSION
