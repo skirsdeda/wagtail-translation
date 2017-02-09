@@ -31,7 +31,7 @@ def set_url_path(self, parent):
             # because wagtail urls will simply not match it.
             # On the other hand, non empty url_path for every language is important.
             # It makes sure descendant url_path updating keeps working as expected.
-            slug = getattr(self, slug_attr, '')
+            slug = getattr(self, slug_attr, '') or ''
             new_url_path = getattr(parent, url_path_attr) + slug + '/'
         else:
             new_url_path = '/'

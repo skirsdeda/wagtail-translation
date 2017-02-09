@@ -19,11 +19,19 @@ def change_lang(context, lang_code):
 
             with override(lang_code):
                 trans_url_path = page.url_path
+                # find position of first non-translated page in path (if any)
                 non_trans_page = trans_url_path.find('//')
                 if non_trans_page > 0:
-                    trans_url_path = trans_url_path[:non_trans_page]
-                    path_components = [comp for comp in trans_url_path.split('/')]
-                    page, args, kwargs = request.site.root_page.specific.route(request, path_components)
+                    # non-translated page found in path
+                    root_page = request.site.root_page.specific
+                    # get part of path from root path to first non-translated page
+                    trans_url_path = trans_url_path[len(root_page.url_path):non_trans_page]
+                    path_components = [comp for comp in trans_url_path.split('/') if comp]
+                    # try to get that page
+                    try:
+                        page, args, kwargs = root_page.route(request, path_components)
+                    except:
+                        return ''
                 elif non_trans_page == 0:
                     # root page not translated!
                     return ''
