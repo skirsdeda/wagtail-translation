@@ -102,9 +102,14 @@ def save(self, *args, **kwargs):
 
     if is_new:
         self.set_url_path(self.get_parent())
-    elif 'update_fields' in kwargs:
+    else:
+        # update url paths if:
+        # a) update_fields is specified and it includes any slug field
+        # or
+        # b) update_fields is not specified (check all slug fields in that case)
         slug_fields = get_translation_fields('slug')
-        updated_slug_fields = [f for f in slug_fields if f in kwargs['update_fields']]
+        update_fields = kwargs.get('update_fields', slug_fields)
+        updated_slug_fields = [f for f in slug_fields if f in update_fields]
         if updated_slug_fields:
             old_record = Page.objects.get(id=self.id)
             if any(getattr(old_record, f) != getattr(self, f) for f in updated_slug_fields):
