@@ -19,6 +19,14 @@ because it is unnecessarily messy and not very maintainable.
    TBD: additional actions to install in preexisting projects (which had migrations run before)
 
    TBD: additional actions when translation languages are changed after running wagtail-translation migration
+   
+### Dependencies and versions
+
+| Dependency              | Versions    | Comments |
+|-------------------------|-------------|----------|
+| wagtail                 | >=1.8       |          |
+| django-modeltranslation | >=0.12      |          |
+| django                  | >=1.8,<1.10 | 1.10 is currently incompatible due to [django-modeltranslation issue](https://github.com/deschler/django-modeltranslation/issues/389) |
 
 ## Configuration
 
