@@ -163,6 +163,11 @@ def _update_descendant_lang_url_paths(self, old_page):
             exec_args.append(new_url_path)
             exec_args.append(len(old_url_path) + 1)
 
+    if not update_fields_sql:
+        # in case page was moved but parent did not change
+        # nothing has to be updated
+        return
+
     update_sql = """
     UPDATE wagtailcore_page
     SET {} WHERE path LIKE %s AND id <> %s
