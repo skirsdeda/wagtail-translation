@@ -43,6 +43,22 @@ def obj_per_lang(cls, field_name, *args, **kwargs):
     return ret
 
 
+def page_slug_is_available(slug, lang_code, parent_page, page=None):
+    """
+    Determines whether a slug is available for a page in
+    a specified language.
+    """
+    if parent_page is None:
+        return True
+
+    siblings = parent_page.get_children()
+    if page:
+        siblings = siblings.not_page(page)
+
+    slug_f = build_localized_fieldname('slug', lang_code)
+    return not siblings.filter(**{slug_f: slug}).exists()
+
+
 def deprecated(obj):
     if isinstance(obj, type):
         return _deprecated_cls(cls=obj)
