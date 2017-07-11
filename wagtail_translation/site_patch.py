@@ -29,9 +29,14 @@ def get_site_root_paths():
     return result
 
 
-def delete_root_path_cache(sender, instance, **kwargs):
+def delete_root_path_cache():
     for lang in mt_settings.AVAILABLE_LANGUAGES:
         cache.delete(ROOT_PATHS_CACHE_KEY_FMT.format(lang))
 
-post_save.connect(delete_root_path_cache, sender=Site)
-post_delete.connect(delete_root_path_cache, sender=Site)
+
+def _delete_root_path_cache_receiver(sender, instance, **kwargs):
+    delete_root_path_cache()
+
+
+post_save.connect(_delete_root_path_cache_receiver, sender=Site)
+post_delete.connect(_delete_root_path_cache_receiver, sender=Site)

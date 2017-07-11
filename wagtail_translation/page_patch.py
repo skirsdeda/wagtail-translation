@@ -3,19 +3,20 @@ from __future__ import absolute_import, unicode_literals
 import logging
 
 from django import VERSION as DJANGO_VERSION
-from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
 from django.db import connection, transaction
 from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 from modeltranslation import settings as mt_settings
-from modeltranslation.utils import build_localized_fieldname, get_translation_fields
+from modeltranslation.utils import (build_localized_fieldname,
+                                    get_translation_fields)
 from wagtail.wagtailcore.models import Page, Site
 from wagtail.wagtailcore.utils import WAGTAIL_APPEND_SLASH
 
 from . import edit_handlers
 from .search import search_fields as _search_fields
+from .site_patch import delete_root_path_cache
 from .utils import page_slug_is_available
 
 logger = logging.getLogger('wagtail.core')
@@ -113,7 +114,7 @@ def save(self, *args, **kwargs):
         self._update_descendant_lang_url_paths(old_record)
 
     if Site.objects.filter(root_page=self).exists():
-        cache.delete('wagtail_site_root_paths')
+        delete_root_path_cache()
 
     if is_new:
         cls = type(self)
