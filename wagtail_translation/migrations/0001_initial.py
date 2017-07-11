@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
     """
 
     dependencies = [
-        ('wagtailcore', '0032_add_bulk_delete_page_permission'),
+        ('wagtailtranslation', '0032_wagtail_translation'),
     ]
 
     operations = [
