@@ -6,6 +6,7 @@ import os
 import os.path
 from importlib import import_module
 
+from django import VERSION as DJANGO_VERSION
 from django.db import migrations, models
 from django.db.migrations.loader import MigrationLoader
 from modeltranslation import settings as mt_settings
@@ -31,7 +32,10 @@ class Migration(migrations.Migration):
         super(Migration, self).__init__(name, app_label)
 
         # find last wagtailcore migration
-        mod_name  = MigrationLoader.migrations_module(app_label)[0]
+        mod_name  = MigrationLoader.migrations_module(app_label)
+        if DJANGO_VERSION >= (1, 11):
+            # Django 1.11 returns tuple(str, bool) while older versions return str
+            mod_name = mod_name[0]
         mod = import_module(mod_name)
         migrations = []
         # this loop acts the same way as MigrationLoader.

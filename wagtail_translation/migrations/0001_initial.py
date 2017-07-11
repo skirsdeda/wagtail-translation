@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
     """
 
     dependencies = [
-        ('wagtailtranslation', '0032_wagtail_translation'),
+        ('wagtailtranslation', '9999_wagtail_translation'),
     ]
 
     operations = [
