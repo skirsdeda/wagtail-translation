@@ -1,4 +1,5 @@
 from importlib import import_module
+
 from django.apps import AppConfig
 
 
@@ -9,8 +10,16 @@ class WagtailTranslationAppConfig(AppConfig):
 
     def ready(self):
         # patch Site and Page models here
-        from wagtail.wagtailcore.models import Page, Site
+        from wagtail.wagtailcore.models import AbstractPage, Page, Site
         from wagtail.wagtailcore.query import PageQuerySet
+        from .manager import MultilingualPageManager
+
+        # fix PageManager to inherit from MultilingualManager
+        # since automatic manager patching no longer works (Django 1.10 and newer)
+        AbstractPage.objects = MultilingualPageManager()
+        AbstractPage.objects.contribute_to_class(AbstractPage, 'objects')
+        Page.objects = MultilingualPageManager()
+        Page.objects.contribute_to_class(Page, 'objects')
 
         page_patch = import_module('wagtail_translation.page_patch')
         site_patch = import_module('wagtail_translation.site_patch')

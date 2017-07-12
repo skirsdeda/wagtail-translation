@@ -50,7 +50,7 @@ class Migration(migrations.Migration):
         # By using `replaces` we make sure that this migration doesn't have ambiguous `app_label`.
         # When this migration is applied Django writes only replaced migration
         # to django_migrations table in DB. Otherwise migration would have
-        # 'wagtail_translation' as app_label in django_migrations table and
+        # 'wagtailtranslation' as app_label in django_migrations table and
         # `migrate` command would consider this migration as unapplied due
         # to app_label mismatch.
         self.replaces = [
