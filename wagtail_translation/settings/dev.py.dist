@@ -1,0 +1,27 @@
+from .base import *  # NOQA
+
+DEBUG = True
+
+INSTALLED_APPS += (
+    'django_extensions',
+    'debug_toolbar',
+    'wagtail_translation.tests',
+    'wagtail_translation.development',
+    'wagtail.contrib.wagtailstyleguide',
+)
+
+DATABASES = {
+    'default': {
+        'NAME': 'dev.sqlite',
+        'ENGINE': 'django.db.backends.sqlite3',
+    }
+}
+
+MIDDLEWARE_CLASSES = (
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+) + MIDDLEWARE_CLASSES
+
+ROOT_URLCONF = 'wagtail_translation.development.urls'
+WAGTAIL_SITE_NAME = 'Wagtail Translation development'
+DEBUG_TOOLBAR_PATCH_SETTINGS = False
+INTERNAL_IPS = ['127.0.0.1']
