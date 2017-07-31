@@ -51,11 +51,10 @@ coverage.xml
 
 # Django stuff:
 *.log
-local_settings.py
-
-# Flask stuff:
-instance/
-.webassets-cache
+manage.py
+wagtail_translation/settings/dev.py
+wagtail_translation/development/*
+*.sqlite
 
 # Scrapy stuff:
 .scrapy
